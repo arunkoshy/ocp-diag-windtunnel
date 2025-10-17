@@ -18,8 +18,7 @@ DEFAULT_MODEL = "deepseek-r1:32b"
 
 def extract_github_urls(text: str) -> List[str]:
     """Extract GitHub URLs from text using regex patterns."""
-    # Pattern to match GitHub URLs (repositories, files, directories)
-    # This pattern is more precise and handles trailing punctuation
+    # handles trailing punctuation
     github_pattern = r'https://github\.com/[a-zA-Z0-9_.-]+/[a-zA-Z0-9_.-]+(?:/[a-zA-Z0-9_./%-]*)?'
     urls = re.findall(github_pattern, text)
     
@@ -249,40 +248,3 @@ if __name__ == "__main__":
         main()
     except KeyboardInterrupt:
         sys.exit(0)
-
-
-def test_github_parsing():
-    """Test function to validate GitHub URL parsing with the provided examples."""
-    test_urls = [
-        "https://github.com/opencomputeproject/ocp-diag-core/tree/main/json_spec",
-        "https://github.com/opencomputeproject/ocp-diag-core/tree/main/json_spec/output", 
-        "https://github.com/opencomputeproject/ocp-diag-core-python",
-        "https://github.com/opencomputeproject/ocp-diag-quickstart/tree/main/python",
-        "https://github.com/opencomputeproject/ocp-diag-pci_lmt/blob/dev/src/pci_lmt/results.py"
-    ]
-    
-    for url in test_urls:
-        print(f"\nTesting URL: {url}")
-        raw_url, content_type = convert_github_url_to_raw(url)
-        print(f"  Raw URL: {raw_url}")
-        print(f"  Content type: {content_type}")
-        
-    # Test URL extraction from text
-    test_text = """
-    Check out the spec text https://github.com/opencomputeproject/ocp-diag-core/tree/main/json_spec
-    the json schema https://github.com/opencomputeproject/ocp-diag-core/tree/main/json_spec/output
-    the api https://github.com/opencomputeproject/ocp-diag-core-python
-    the python quickstarts https://github.com/opencomputeproject/ocp-diag-quickstart/tree/main/python
-    this diag as an example https://github.com/opencomputeproject/ocp-diag-pci_lmt/blob/dev/src/pci_lmt/results.py
-    """
-    
-    print(f"\nExtracting URLs from text:")
-    extracted_urls = extract_github_urls(test_text)
-    for url in extracted_urls:
-        print(f"  Found: {url}")
-    
-    print(f"\nTotal URLs found: {len(extracted_urls)}")
-
-
-# Uncomment the next line to run tests manually
-# test_github_parsing()
